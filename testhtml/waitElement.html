@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>5秒后创建按钮</title>
+  <style>
+    #ruyi {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #eee;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="container">等待按钮出现...</div>
+
+  <script>
+    setTimeout(() => {
+      const button = document.createElement('button');
+      button.id = 'ruyi';
+      button.textContent = '点击我';
+      button.onclick = function () {
+        this.style.backgroundColor = 'red';
+        this.style.color = 'white';
+      };
+      document.getElementById('container').innerHTML = ''; // 清除提示
+      document.getElementById('container').appendChild(button);
+    }, 5000);
+  </script>
+
+</body>
+</html>

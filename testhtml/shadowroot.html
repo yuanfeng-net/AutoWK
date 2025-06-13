@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Shadow DOM 示例</title>
+  <style>
+    #host {
+      margin: 50px;
+      border: 1px solid #ccc;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="host"></div>
+
+  <script>
+    // 获取宿主元素
+    const host = document.getElementById('host');
+
+    // 创建 shadow root
+    const shadow = host.attachShadow({ mode: 'open' });
+
+    // 创建内容
+    shadow.innerHTML = `
+      <style>
+        #clickable {
+          padding: 10px;
+          border: 1px solid #000;
+          cursor: pointer;
+          display: inline-block;
+          background-color: white;
+        }
+      </style>
+      <div id="clickable">点击我</div>
+    `;
+
+    // 添加点击事件
+    shadow.getElementById('clickable').addEventListener('click', function () {
+      this.style.backgroundColor = 'red';
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>点击坐标标记</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: black;
+      height: 100%;
+      overflow: hidden;
+      cursor: crosshair;
+    }
+    .marker {
+      position: absolute;
+      color: white;
+      font-size: 12px;
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+<script>
+  document.addEventListener('click', function (e) {
+    const x = e.clientX;
+    const y = e.clientY;
+
+    const marker = document.createElement('div');
+    marker.className = 'marker';
+    marker.style.left = `${x + 5}px`;
+    marker.style.top = `${y + 5}px`;
+    marker.textContent = `(${x}, ${y})`;
+
+    document.body.appendChild(marker);
+  });
+</script>
+
+</body>
+</html>
