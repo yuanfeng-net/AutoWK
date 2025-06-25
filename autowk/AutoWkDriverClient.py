@@ -67,15 +67,24 @@ class AutoWK(AutoWKBase):
     def navigate(self, url):
         response=self.request("POST", f"/session/{self.session_id}/url", {"url": url})
         return response
-
-
     def get_current_url(self):
         return self.request("GET", f"/session/{self.session_id}/url")["value"]
 
     def get_useragent(self):
         return self.execute_script('return navigator.userAgent')
+
     def set_useragent(self,useragent_name):
         return self.request("POST", f"/session/{self.session_id}/window/setua", {"ua": useragent_name})
+    def document_onload(self,interval=0.5):
+        isloaded=False
+        while not isloaded:
+            result=self.execute_script('return document.readyState;')
+            if result=='complete':
+                isloaded=True
+            else:
+                time.sleep(interval)
+        return True
+
     def back(self):
         return self.request("POST", f"/session/{self.session_id}/back")
 
@@ -321,7 +330,7 @@ class AutoWK(AutoWKBase):
                 if using=='css selector':
                     element=self.find_element_by_css_selector(selector)
                 elif using == 'xpath':
-                    element = self.find_element_by_css_selector(selector)
+                    element = self.find_element_by_xpath(selector)
                 else:
                     raise ValueError("Invalid using argument.")
                 if(element.is_displayed()) :

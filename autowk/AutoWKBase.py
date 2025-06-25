@@ -3,34 +3,7 @@ import subprocess
 import os
 import psutil
 import json
-import platform,sys
-import re
 
-def is_amd_cpu():
-    try:
-        cpu_info = platform.processor() or platform.uname().processor or platform.uname().machine
-        return "amd" in cpu_info.lower()
-    except Exception:
-        return False
-
-def is_windows_11():
-    try:
-        if platform.system().lower() != "windows":
-            return False
-        version = platform.version()  # e.g., '10.0.22000'
-        major, minor, build = map(int, re.split(r'\D+', version)[:3])
-        return (major == 10 and build >= 22000)
-    except Exception:
-        return False
-
-def detect_environment():
-    if is_amd_cpu():
-        print("检测到 AMD 芯片，浏览器不支持！")
-        sys.exit(1)
-    if not is_windows_11():
-        print("检测到非 Windows 11 系统，目前不支持")
-
-detect_environment()
 
 def get_bin_file_path(filename):
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -77,7 +50,7 @@ class AutoWKBase:
             args.append(f"--proxyHost={proxyHost}")
             args.append(f"--proxyPort={proxyPort}")
             if proxyUsername and proxyPassword:
-                args.append(f"--proxyUserName={proxyUsername}")
+                args.append(f"--proxyUsername={proxyUsername}")
                 args.append(f"--proxyPassword={proxyPassword}")
 
         if userDataDir:
