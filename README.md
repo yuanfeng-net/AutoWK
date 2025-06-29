@@ -206,39 +206,64 @@ minibrowser.exe --proxyType=http  --proxyHost=127.0.0.1  --proxyPort=7890
 ```
 ---
 
-### 指纹修改配置文件支持的指纹（启动参数中的指纹修改配置文件）
-| 参数                                    | 示例                  | 说明                               |
-| ------------------------------------- | ------------------- | -------------------------------- |
-| `unmasked_renderer`                   | `Apple GPU`         | 设置显卡型号（WebGL UNMASKED\_RENDERER） |
-| `unmasked_vendor`                     | `Apple Inc.`        | 设置显卡厂商（WebGL UNMASKED\_VENDOR）   |
-| `canvas_noise`                        | `10`                | Canvas 指纹噪声种子，任意整数               |
-| `clientrect_noise`                    | `2`                 | DOM ClientRect 指纹噪声，整数           |
-| `hardwareConcurrency`                 | `8`                 | CPU 核心数                          |
-| `maxTouchPoints`                      | `5`                 | 触摸设备支持点数                         |
-| `canvas_alpha`                        | `0`                 | Canvas 配置，是否启用透明背景               |
-| `canvas_depth`                        | `0`                 | Canvas 配置，是否启用深度缓冲               |
-| `canvas_stencil`                      | `0`                 | Canvas 配置，是否启用模板缓冲               |
-| `canvas_antialias`                    | `1`                 | Canvas 配置，是否启用抗锯齿                |
-| `canvas_premultipliedAlpha`           | `0`                 | Canvas 配置，颜色是否预乘 alpha           |
-| `canvas_preserveDrawingBuffer`        | `0`                 | Canvas 配置，是否保持绘图缓冲               |
-| `canvas_failIfMajorPerformanceCaveat` | `0`                 | Canvas 配置，是否因性能差而创建失败            |
-| `canvas_powerPreference`              | `high-performance`  | Canvas 使用的性能模式（低功耗/高性能）          |
-| `gl_cap_GL_BLEND`                     | `1`                 | OpenGL 状态：混合（GL\_BLEND）          |
-| `gl_cap_GL_CULL_FACE`                 | `1`                 | OpenGL 状态：剔除面（GL\_CULL\_FACE）    |
-| `gl_cap_GL_DEPTH_TEST`                | `1`                 | OpenGL 状态：深度测试（GL\_DEPTH\_TEST）  |
-| `gl_cap_GL_DITHER`                    | `1`                 | OpenGL 状态：抖动（GL\_DITHER）         |
-| `gl_cap_GL_POLYGON_OFFSET_FILL`       | `1`                 | OpenGL 状态：多边形偏移填充                |
-| `gl_cap_GL_SAMPLE_ALPHA_TO_COVERAGE`  | `1`                 | OpenGL 状态：采样透明度                  |
-| `gl_cap_GL_SAMPLE_COVERAGE`           | `1`                 | OpenGL 状态：采样覆盖                   |
-| `gl_cap_GL_SCISSOR_TEST`              | `1`                 | OpenGL 状态：裁剪测试                   |
-| `gl_cap_GL_STENCIL_TEST`              | `1`                 | OpenGL 状态：模板测试                   |
-| `gl_cap_GL_RASTERIZER_DISCARD`        | `1`                 | OpenGL 状态：光栅化丢弃                  |
-| `webgl_param_UNMASKED_RENDERER_WEBGL` | `AMD Fake Renderer` | WebGL 渲染器名称                      |
-| `webgl_param_UNMASKED_VENDOR_WEBGL`   | `FakeVendor Inc.`   | WebGL 显卡厂商名称                     |
-| `webgl_param_DEPTH_BITS`              | `14`                | WebGL 深度缓冲位数                     |
-| `webgl_param_MAX_TEXTURE_SIZE`        | `1024`              | 最大纹理尺寸                           |
-| `webgl_param_MAX_VIEWPORT_DIMS`       | `1024`              | 最大视口尺寸                           |
-| `webgl_param_DEPTH_TEST`              | `true`              | 是否开启深度测试                         |
+
+## 支持的指纹修改参数
+
+| 参数                                         | 示例                          | 说明                                                         | 可选值/范围                          |
+| -------------------------------------------- | ----------------------------- | ------------------------------------------------------------ | ------------------------------------- |
+| **unmasked_renderer**                        | `Apple GPU`                   | 显卡型号（WebGL UNMASKED_RENDERER）                          | 任意字符串                           |
+| **unmasked_vendor**                          | `Apple Inc.`                  | 显卡厂商（WebGL UNMASKED_VENDOR）                             | 任意字符串                           |
+| **canvas_noise**                             | `10`                          | Canvas 噪声种子，影响 toDataURL/getImageData 返回像素         | 任意整数，不同数值对应不同噪声         |
+| **clientrect_noise**                         | `2`                           | ClientRect DOM 矩形尺寸噪声                                  | 整数，0 表示不加噪声                   |
+| **hardwareConcurrency**                      | `8`                           | CPU 核心数，navigator.hardwareConcurrency                     | 正整数，建议 1~128                    |
+| **maxTouchPoints**                           | `5`                           | 支持的触摸点数，navigator.maxTouchPoints                     | 0（无触摸）或正整数                    |
+
+---
+
+## Canvas 初始化参数（影响 2D/WebGL 上下文创建）
+
+| 参数                                         | 示例                          | 说明                                                         | 可选值/范围                          |
+| -------------------------------------------- | ----------------------------- | ------------------------------------------------------------ | ------------------------------------- |
+| **canvas_alpha**                             | `0`                           | 是否透明                                                     | `0`（不透明）、`1`（透明）            |
+| **canvas_depth**                             | `1`                           | 是否启用深度缓冲                                             | `0` 或 `1`                           |
+| **canvas_stencil**                           | `0`                           | 是否启用模板缓冲                                             | `0` 或 `1`                           |
+| **canvas_antialias**                         | `1`                           | 是否抗锯齿                                                   | `0` 或 `1`                           |
+| **canvas_premultipliedAlpha**                | `0`                           | 是否 premultipliedAlpha                                      | `0` 或 `1`                           |
+| **canvas_preserveDrawingBuffer**             | `0`                           | 是否保留绘图缓冲                                             | `0` 或 `1`                           |
+| **canvas_failIfMajorPerformanceCaveat**      | `0`                           | 若性能较差是否拒绝创建 WebGL                                 | `0` 或 `1`                           |
+| **canvas_powerPreference**                   | `high-performance`            | 电源优先级                                                   | `high-performance` / `low-power` / `default` |
+
+---
+
+## OpenGL/WebGL 状态（Capabilities）
+
+| 参数                                         | 示例                          | 说明                                                         | 可选值/范围                          |
+| -------------------------------------------- | ----------------------------- | ------------------------------------------------------------ | ------------------------------------- |
+| **gl_cap_GL_BLEND**                          | `1`                           | 是否启用混合                                                 | `0` 或 `1`                           |
+| **gl_cap_GL_CULL_FACE**                       | `1`                           | 是否启用背面剔除                                             | `0` 或 `1`                           |
+| **gl_cap_GL_DEPTH_TEST**                      | `1`                           | 是否启用深度测试                                             | `0` 或 `1`                           |
+| **gl_cap_GL_DITHER**                          | `1`                           | 是否启用抖动                                                 | `0` 或 `1`                           |
+| **gl_cap_GL_POLYGON_OFFSET_FILL**             | `1`                           | 是否启用多边形偏移填充                                       | `0` 或 `1`                           |
+| **gl_cap_GL_SAMPLE_ALPHA_TO_COVERAGE**        | `1`                           | 是否启用透明度到覆盖                                         | `0` 或 `1`                           |
+| **gl_cap_GL_SAMPLE_COVERAGE**                 | `1`                           | 是否启用采样覆盖                                             | `0` 或 `1`                           |
+| **gl_cap_GL_SCISSOR_TEST**                    | `1`                           | 是否启用裁剪测试                                             | `0` 或 `1`                           |
+| **gl_cap_GL_STENCIL_TEST**                    | `1`                           | 是否启用模板测试                                             | `0` 或 `1`                           |
+| **gl_cap_GL_RASTERIZER_DISCARD**              | `1`                           | 是否启用光栅化丢弃                                           | `0` 或 `1`                           |
+
+---
+
+## WebGL 参数（通过 getParameter 获取）
+
+| 参数                                         | 示例                          | 说明                                                         | 可选值/范围                          |
+| -------------------------------------------- | ----------------------------- | ------------------------------------------------------------ | ------------------------------------- |
+| **webgl_param_UNMASKED_RENDERER_WEBGL**      | `AMD Fake Renderer`           | 显卡渲染器名称（UNMASKED_RENDERER_WEBGL）                    | 任意字符串                           |
+| **webgl_param_UNMASKED_VENDOR_WEBGL**        | `FakeVendor Inc.`             | 厂商名称（UNMASKED_VENDOR_WEBGL）                            | 任意字符串                           |
+| **webgl_param_DEPTH_BITS**                   | `24`                          | 深度缓冲区位数                                               | 0、8、16、24、32                     |
+| **webgl_param_MAX_TEXTURE_SIZE**             | `4096`                        | 最大纹理尺寸                                                 | 2 的幂，通常 512~16384               |
+| **webgl_param_MAX_VIEWPORT_DIMS**            | `4096`                        | 最大视口尺寸（宽高相同）                                     | 通常 512~16384                       |
+| **webgl_param_DEPTH_TEST**                   | `true`                        | 是否启用深度测试                                             | `true` 或 `false`                    |
+
+---
 
 fp_config1.txt配置文件示例：
 
