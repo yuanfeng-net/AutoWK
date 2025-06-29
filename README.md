@@ -26,7 +26,7 @@
 1. 安装依赖：
 
    ```bash
-   pip install autowk==0.4.1
+   pip install autowk==0.4.2
    ```
 
 2. 编写代码，启动自动化：
